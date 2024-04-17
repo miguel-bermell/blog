@@ -37,6 +37,7 @@ async function generateRssFeed() {
         description: attributes.description,
         url: `${site_url}/blog/${slug}`,
         date: attributes.date,
+        categories: attributes.tags
       });
     });
 
