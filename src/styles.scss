@@ -1,0 +1,210 @@
+@import "./code-owl.css";
+/* Tailwind directives  */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* You can add global styles to this file, and also import other style files */
+
+@layer base {
+  ul,
+  ol {
+    list-style: revert;
+  }
+}
+
+@font-face {
+  font-family: 'Source Code Pro';
+  src: url('/fonts/SourceCodePro-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+
+:root {
+  --max-width: 60rem;
+  --primary: var(--blue);
+  --secondary: var(--grey0)
+  color-scheme: dark;
+}
+
+html {
+  max-width: 100%;
+  
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: var(--primary);
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--bg);
+  }
+
+  ::-webkit-scrollbar-track-piece:start {
+    margin-top: 0.5rem
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+a {
+  font-weight: 500;
+  color: var(--primary);
+  text-decoration: inherit;
+}
+a:hover {
+  filter: brightness(0.8);
+}
+
+body {
+  color: beige;
+  font-family: "Lato", sans-serif;
+  font-size: 1.2rem;
+  margin: 0;
+  max-width: var(--max-width);
+  margin: auto;
+  background-color: transparent;
+  padding: 0 2rem;
+
+  &:before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url('/images/bg.webp');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #171b1f;
+    background-blend-mode: multiply;
+    background-attachment: fixed;
+    opacity: 95%;
+    z-index: -1;
+    padding: 0 1rem;
+  }
+
+  &::after {
+    content: '';
+    background: rgb(0 153 255 / .35);
+    filter: blur(100px);
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    left: -50px;
+    top: 100px;
+    z-index: -1;
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 0 1rem;
+  }
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: inherit;
+  line-height: 1;
+}
+
+h1 {
+  font-size: 3.998rem;
+  padding: 3rem 0 1rem;
+}
+
+h2 {
+  font-size: 2.827rem;
+  padding: 3rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.999rem;
+  padding: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.414rem;
+  padding: 2rem 0 1rem;
+}
+
+h5 {
+  font-size: 1.121rem;
+  padding: 2rem 0 1rem;
+}
+
+h6 {
+  font-size: 0.88rem;
+  padding: 2rem 0 1rem;
+}
+
+pre {
+  margin: 1rem 0 0.5rem;
+  padding: 1.5rem;
+  border-radius: 0.3em;
+  opacity: 0.8;
+  box-shadow: 0 20px 60px rgba(0,0,0,.6)
+}
+
+hr {
+  margin: 0 auto;
+  padding: 0;
+}
+
+img {
+  width: 100%;
+  object-fit: cover;
+}
+
+blockquote p {
+  font-size: 1.5rem;
+  font-style: italic;
+  margin: 1rem auto;
+  max-width: 48rem;
+}
+
+li {
+  margin-left: 2rem;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+p {
+  max-width: var(--max-width);
+  color: #cfcfbb;
+  margin: 1rem auto 1.5rem;
+  height: auto;
+  line-height: 1.45;
+  font-weight: 400;
+
+  a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: filter 0.3s ease;
+
+    &:hover {
+      filter: brightness(0.8);
+    }
+  }
+
+}
+
+.text-shadow {
+  &:hover {
+    text-shadow: 0 0 40px #0099ff
+  }
+}

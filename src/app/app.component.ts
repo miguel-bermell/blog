@@ -1,30 +1,20 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { HeaderComponent } from './components/header.component';
+import { FooterComponent } from './components/footer.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent],
   template: `
-    <nav>
-      <a href="/">Home</a>
-    </nav>
-    <router-outlet></router-outlet>
-  `,
-  styles: [
-    `
-      :host {
-        max-width: 1280px;
-        margin: 0 auto;
-        padding: 2rem;
-        text-align: center;
-      }
-
-      nav {
-        text-align: left;
-        padding: 0 0 2rem 0;
-      }
-    `,
-  ],
+    <main class="flex flex-col min-h-screen">
+      <mb-header />
+      <section class="grow">
+        <router-outlet />
+      </section>
+      <mb-footer />
+    </main>
+  `
 })
 export class AppComponent {}

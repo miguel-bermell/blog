@@ -2,19 +2,19 @@ import { Component } from '@angular/core';
 import { injectContentFiles } from '@analogjs/content';
 import PostAttributes from '../../post-attributes';
 import { RouterLink } from '@angular/router';
+import PostCardComponent from '../../components/post-card.component';
 
 @Component({
   selector: 'app-blog',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, PostCardComponent],
   template: `
     <h1>Blog Archive</h1>
-    @for (post of posts;track post.attributes.slug) {
-    <a [routerLink]="['/blog/', post.attributes.slug]">
-      <h2 class="post__title">{{ post.attributes.title }}</h2>
-      <p class="post__desc">{{ post.attributes.description }}</p>
-    </a>
-    }
+    <div class="flex flex-col gap-8">
+      @for (post of posts; track post.attributes.slug) {
+        <mb-post-card [post]="post.attributes" />
+      }
+    </div>
   `,
   styles: [
     `
@@ -31,6 +31,6 @@ import { RouterLink } from '@angular/router';
     `,
   ],
 })
-export default class HomeComponent {
+export default class BlogComponent {
   readonly posts = injectContentFiles<PostAttributes>();
 }

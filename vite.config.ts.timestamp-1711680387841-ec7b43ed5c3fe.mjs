@@ -12,7 +12,7 @@ var vite_config_default = defineConfig(({ mode }) => ({
   plugins: [
     analog({
       prerender: {
-        routes: ["/blog", "/blog/2022-12-27-my-first-post"]
+        routes: ["/blog"]
       }
     })
   ],
