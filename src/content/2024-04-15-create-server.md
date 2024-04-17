@@ -144,11 +144,11 @@ Una vez tenemos instalado Autopilot y configurado correctamente kubectl, el sigu
 Una vez generado el token de GitHub y definida la URL del repositorio, procederemos a configurar el entorno para el arranque de ArgoCD utilizando Autopilot. Primero, configura las variables de entorno necesarias en la terminal donde Autopilot ha sido instalado:
 
 ```bash
-# Nuestro token de Git
+# Establece el token de GitHub como variable de entorno
 export GIT_TOKEN=ghp_d3nrpZHPTCGAOYBZop1VDCBDHQVgTj0OYxPu
 
-# La URL de nuestro repositorio
-export GIT_REPO=https://github.com/LaraPruna/autopilot.git
+# Establece la URL de tu repositorio de GitHub como variable de entorno
+export GIT_REPO=https://github.com/miguel-bermell/autopilot.git
 ```
 Ejecuta el siguiente comando para iniciar el proceso de instalación de ArgoCD y su configuración en tu clúster de Kubernetes:
 
