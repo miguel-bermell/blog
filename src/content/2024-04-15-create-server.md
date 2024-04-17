@@ -1,7 +1,7 @@
 ---
-title: Creando un servidor con ubuntu server
+title: Ubuntu Server para Despliegues Automáticos
 slug: 2024-04-15-my-first-post
-description: En esta ocasión, voy a explicar cómo crear desde 0 un servidor y configurarlo junto con Docker, Kubernetes y ArgoCD
+description: Aprende a configurar Ubuntu Server con Docker, Kubernetes y ArgoCD para despliegues automáticos. Guía paso a paso para construir y administrar aplicaciones de manera eficiente y escalable.
 coverImage: 'server.webp'
 date: 2024-04-15
 tags: ['ubuntu', 'kubernetes', 'argocd']
@@ -14,6 +14,7 @@ Bienvenidos a mi blog. En esta primera entrada, quiero compartir cómo he config
 ### ¿Qué vamos a lograr?
 
 El objetivo de este artículo es guiarte a través de la instalación y configuración de Ubuntu Server, y prepararlo para correr contenedores con Docker y orquestarlos con Kubernetes y ArgoCD. Esto te permitirá tener un ambiente robusto y escalable para despliegues automáticos.
+Además, aprenderás a construir una aplicación usando Docker, a publicar la imagen en GitHub, y finalmente, a desplegarla en tu servidor utilizando ArgoCD. Te proporcionaré todos los pasos necesarios para llevar a cabo estos procesos.
 
 ### Instalación de Ubuntu Server
 
@@ -133,3 +134,135 @@ Deberías ver algo similar a esto en tu terminal, confirmando que **microk8s** e
 CURRENT   NAME       CLUSTER            AUTHINFO   NAMESPACE
 *         microk8s   microk8s-cluster   admin
 ```
+Una vez tenemos instalado Autopilot y configurado correctamente kubectl, el siguiente paso será crear un **Token de Git** para utilizarlo en autopilot.
+##### Generar un Token de GitHub para Autopilot
+
+1. Ve a los ajustes de tu cuenta de GitHub > Developer settings > [Personal access tokens](https://github.com/settings/tokens).
+2. Genera un nuevo token ajustando el periodo de validez y los permisos necesarios (marcando la casilla "repo" es suficiente).
+3. **Es importante copiar el token antes de salir de la página, ya que no podrás volver a verlo**
+
+Una vez generado el token de GitHub y definida la URL del repositorio, procederemos a configurar el entorno para el arranque de ArgoCD utilizando Autopilot. Primero, configura las variables de entorno necesarias en la terminal donde Autopilot ha sido instalado:
+
+```bash
+# Nuestro token de Git
+export GIT_TOKEN=ghp_d3nrpZHPTCGAOYBZop1VDCBDHQVgTj0OYxPu
+
+# La URL de nuestro repositorio
+export GIT_REPO=https://github.com/LaraPruna/autopilot.git
+```
+Ejecuta el siguiente comando para iniciar el proceso de instalación de ArgoCD y su configuración en tu clúster de Kubernetes:
+
+```bash
+argocd-autopilot repo bootstrap
+```
+
+Este comando realizará las siguientes acciones:
+
+- Creará el repositorio en GitHub si no existe (o utilizará el existente).
+- Configurará tres directorios principales dentro del repositorio: apps, bootstrap, y projects.
+- Instalará ArgoCD en tu clúster de Kubernetes.
+
+Al final de la instalación, se te proporcionará información, como el usuario y la contraseña para acceder a ArgoCD, y el comando necesario para establecer un port-forward y acceder a la interfaz de usuario de ArgoCD desde tu navegador local:
+
+```bash
+INFO pushing bootstrap manifests to repo          
+Resolving deltas: 100% (1/1), done.
+INFO applying argo-cd bootstrap application       
+application.argoproj.io/autopilot-bootstrap created
+INFO running argocd login to initialize argocd config 
+'admin:login' logged in successfully
+Context 'autopilot' updated
+
+INFO argocd initialized. password: **************** 
+INFO run:
+
+    kubectl port-forward -n argocd svc/argocd-server 8080:80
+```
+Si olvidas la contraseña del administrador de ArgoCD, puedes recuperarla fácilmente utilizando el siguiente comando, que consulta el secreto inicial de administrador almacenado en Kubernetes:
+
+```bash
+kubectl get secret argocd-initial-admin-secret -n argocd -ogo-template='{{printf "%s\n" (index (index . "data") "password" | base64decode)}}'
+```
+
+Para comenzar a organizar tus aplicaciones, primero crea un proyecto en ArgoCD con el siguiente comando:
+
+```bash
+argocd-autopilot project create my-project
+```
+Este comando configura un nuevo proyecto llamado my-project en ArgoCD, proporcionando un espacio aislado para gestionar las aplicaciones relacionadas.
+
+Por último, instalamos nuestra primera aplicación en el proyecto. Antes de instalar tu primera aplicación, asegúrate de tener un repositorio para ella. Puedes usar una aplicación de prueba proporcionada en la documentación de Autopilot para entender cómo funciona el proceso. Instala la aplicación en el proyecto que acabas de crear utilizando el siguiente comando:
+
+```bash
+argocd-autopilot app create demoapp --app github.com/argoproj-labs/argocd-autopilot/examples/demo-app/ -p my-project
+```
+Este comando crea una aplicación llamada demoapp bajo el proyecto my-project, utilizando una aplicación de demostración disponible en los ejemplos de Autopilot.
+
+#### Utilizar port-forward en tu máquina local
+
+Para conectarte a tu clúster de Kubernetes remoto desde tu máquina local y poder acceder a la interfaz web de ArgoCD:
+
+##### Paso 1: Instalar kubectl
+
+Primero, instala kubectl en tu máquina local. La manera de instalarlo puede variar según tu sistema operativo. Aquí te muestro cómo hacerlo para los sistemas operativos más comunes:
+
+Linux/curl:
+```bash
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x ./kubectl
+sudo mv ./kubectl /usr/local/bin/kubectl
+```
+macOS:
+```bash
+brew install kubectl
+```
+
+Windows con Chocolatey:
+```bash
+choco install kubernetes-cli
+```
+
+##### Paso 2: Configurar acceso al clúster
+
+Para que **kubectl** se conecte a tu clúster de Kubernetes remoto, necesitarás configurar tus credenciales y la información del clúster en el archivo ~/.kube/config de tu máquina local.
+
+Procedemos a exportar la configuración de MicroK8s de nuestro servidor.
+
+```bash
+microk8s config
+```
+Copia la salida de este comando y guárdala como tu archivo ~/.kube/config en tu máquina local.
+
+Si aún no tienes un directorio .kube, créalo en tu directorio home:
+
+```bash
+mkdir -p ~/.kube
+```
+
+Abre un nuevo archivo llamado config dentro de este directorio con tu editor de texto.
+
+```bash
+vim ~/.kube/config
+```
+Pega la configuración que copiaste desde tu servidor en este archivo.
+
+Por último, verifica la configuración:
+
+```bash
+kubectl get nodes
+```
+Deberías ver una lista de los nodos en tu clúster de MicroK8s, algo similar a esto:
+
+```bash
+NAME            STATUS   ROLES    AGE    VERSION
+bermellserver   Ready    <none>   3h4m   v1.28.7
+```
+
+##### Paso 3: Reenvío de Puerto para Argo CD
+
+Ahora deberías poder acceder a la interfaz web. puedes usar el siguiente comando para reenviar un puerto local a la interfaz web de Argo CD en tu clúster:
+
+```bash
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+```
+Este comando reenviará el puerto 8080 de tu máquina local al puerto 443 del servicio argocd-server en el espacio de nombres argocd. Puedes abrir un navegador web y acceder a la interfaz de Argo CD mediante http://localhost:8080.
