@@ -1,10 +1,11 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-
+import { TranslocoDirective } from '@ngneat/transloco';
+import { SwitchLangComponent } from './switch-lang.component';
 @Component({
   selector: 'mb-header',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, TranslocoDirective, SwitchLangComponent],
   template: `
     <header class="flex justify-between items-center py-4 md:py-8">
       <div class="flex items-center">
@@ -17,7 +18,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
           [routerLink]="['/']"
         />
         <nav>
-          <ul class="flex list-none items-center ml-10">
+          <ul *transloco="let t; read: 'navigation'" class="flex list-none items-center ml-10">
             @for (link of links; track link.id) {
               <li class="ml-0">
                 <a
@@ -26,7 +27,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
                   routerLinkActive="text-[var(--secondary)]"
                   [routerLinkActiveOptions]="{ exact: true }"
                 >
-                  {{ link.text }}
+                  {{ t(link.name) }}
                 </a>
               </li>
             }
@@ -42,6 +43,11 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
             <use xlink:href="/icons/rss.svg#rss-icon"></use>
           </svg>
         </a>
+        <a
+          class="inline-flex justify-center rounded-full border-transparent border p-1.5 outline-2 outline-offset-2 transition-colors hover:border-gray-400 cursor-pointer lg:block"
+        >
+          <mb-switch-lang />
+        </a>
       </div>
     </header>
   `,
@@ -49,8 +55,8 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class HeaderComponent {
   protected readonly links = [
-    { id: 1, text: 'Home', url: '/home' },
-    { id: 2, text: 'Blog', url: '/blog' },
-    { id: 3, text: 'About', url: '/about' },
+    { id: 1, name: 'home', url: '/home' },
+    { id: 2, name: 'blog', url: '/blog' },
+    // { id: 3, name: 'about', url: '/about' },
   ];
 }

@@ -3,11 +3,12 @@ import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import PostAttributes from '../post-attributes';
 import { TAGS } from '../utils/tags';
+import { TagComponent } from './tag.component';
 
 @Component({
   selector: 'mb-post-card',
   standalone: true,
-  imports: [RouterLink, DatePipe],
+  imports: [RouterLink, DatePipe, TagComponent],
   template: `
     @if (post(); as post) {
       <div
@@ -34,15 +35,7 @@ import { TAGS } from '../utils/tags';
           <div class="flex flex-wrap gap-3 pb-3">
             @for (tag of post.tags; track tag) {
               <div class="py-0.5">
-                <img
-                  class="w-8 h-8"
-                  [src]="tags[tag]"
-                  height="32"
-                  width="32"
-                  decoding="async"
-                  loading="lazy"
-                  alt="Ubuntu"
-                />
+              <mb-tag [tag]="tag"></mb-tag>
               </div>
             }
           </div>

@@ -1,20 +1,22 @@
-import { Component, inject, ViewEncapsulation } from '@angular/core';
-import { injectContent, MarkdownComponent } from '@analogjs/content';
+import { ContentRenderer, injectContent, MarkdownComponent } from '@analogjs/content';
 import { AsyncPipe, NgOptimizedImage } from '@angular/common';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import PostAttributes from '../../post-attributes';
-import { map, tap } from 'rxjs';
 import { Meta, Title } from '@angular/platform-browser';
+import { map, take, tap } from 'rxjs';
 import { PostInfoComponent } from '../../components/post-info.component';
+import { PostNavigation } from '../../components/post-navigation/post-navigation.component';
+import PostAttributes from '../../post-attributes';
 
 @Component({
   selector: 'app-blog-post',
   standalone: true,
-  imports: [AsyncPipe, MarkdownComponent, NgOptimizedImage ,PostInfoComponent],
+  imports: [AsyncPipe, MarkdownComponent, NgOptimizedImage ,PostInfoComponent, PostNavigation],
   template: `
     @if (post$ | async; as post) {
       <article class="pb-8">
+        <mb-post-navigation [headings]="headings"></mb-post-navigation>
         <h1>{{ post.attributes.title }}</h1>
 
         <!-- POST INFO -->
@@ -60,6 +62,17 @@ import { PostInfoComponent } from '../../components/post-info.component';
 export default class PostComponent {
   private readonly title = inject(Title);
   private readonly meta = inject(Meta);
+  private contentRenderer = inject(ContentRenderer);
+
+  public headings!: any[];
+
+  constructor() {
+    this.post$.pipe(take(1)).subscribe((post) => {
+      if (typeof post.content === 'string') {
+        this.updateContent(post.content, post.attributes);
+      }
+    });
+  }
 
   readonly post$ = injectContent<PostAttributes>().pipe(
     tap(({ attributes: { title, description, coverImage, slug, date } }) => {
@@ -86,4 +99,20 @@ export default class PostComponent {
       }),
     ),
   );
+
+  private updateContent(content: string, attributes: any) {
+    if (!attributes || !content) {
+      return;
+    }
+
+    this.contentRenderer.render(content).then((body) => {
+      this.headings = this.contentRenderer
+        .getContentHeadings()
+        .filter((h) => h.level <= 4)
+        .map((h) => ({
+          ...h,
+          text: h.text.replace(/<\/?[^>]+(>|$)/g, ''),
+        }));
+    });
+  }
 }
