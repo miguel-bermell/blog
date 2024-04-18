@@ -2,6 +2,20 @@
 
 import { defineConfig } from 'vite';
 import analog, { PrerenderContentFile } from '@analogjs/platform';
+import * as fs from 'fs';
+
+const getPostRoutes = (language: string) => {
+  const posts = fs.readdirSync(`./src/content/${language}`);
+  return posts.map(
+    post =>
+      `/blog/${post.replace('.md', '').replace(/^\d{4}-\d{2}-\d{2}-/, '')}`
+  );
+};
+
+const postRoutes = {
+  en: getPostRoutes('en'),
+  es: getPostRoutes('es'),
+};
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -16,7 +30,7 @@ export default defineConfig(({ mode }) => ({
     analog({
       prerender: {
         routes: async () => [
-          '/blog',
+          '/blog', '/home', ...postRoutes.en, ...postRoutes.es,
           {
             contentDir: 'src/content',
             transform: (file: PrerenderContentFile) => {

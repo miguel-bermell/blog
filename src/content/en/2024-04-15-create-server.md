@@ -1,7 +1,7 @@
 ---
-title: Ubuntu Server para Despliegues Automáticos
-slug: 2024-04-15-my-first-post
-description: Aprende a configurar Ubuntu Server con Docker, Kubernetes y ArgoCD para despliegues automáticos. Guía paso a paso para construir y administrar aplicaciones de manera eficiente y escalable.
+title: Ubuntu Server for Automated Deployments
+slug: 2024-04-15-create-server-post
+description: Learn how to set up Ubuntu Server with Docker, Kubernetes, and ArgoCD for automated deployments. A step-by-step guide to building and managing applications efficiently and scalably.
 coverImage: 'server.webp'
 date: 2024-04-15
 tags: ['ubuntu', 'kubernetes', 'argocd']

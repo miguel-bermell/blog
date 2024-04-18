@@ -1,17 +1,20 @@
-import { Component } from '@angular/core';
-import { injectContentFiles } from '@analogjs/content';
+import { Component, inject } from '@angular/core';
+import { ContentFile, injectContentFiles } from '@analogjs/content';
 import PostAttributes from '../../post-attributes';
 import { RouterLink } from '@angular/router';
 import PostCardComponent from '../../components/post-card.component';
+import { TranslocoService } from '@ngneat/transloco';
+import { map, Observable } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-blog',
   standalone: true,
-  imports: [RouterLink, PostCardComponent],
+  imports: [RouterLink, AsyncPipe, PostCardComponent],
   template: `
     <h1>Blog Archive</h1>
     <div class="flex flex-col gap-8">
-      @for (post of posts; track post.attributes.slug) {
+      @for (post of posts$ | async; track post.attributes.slug) {
         <mb-post-card [post]="post.attributes" />
       }
     </div>
@@ -32,5 +35,27 @@ import PostCardComponent from '../../components/post-card.component';
   ],
 })
 export default class BlogComponent {
-  readonly posts = injectContentFiles<PostAttributes>();
+  readonly files = injectContentFiles<PostAttributes>();
+  readonly posts$: Observable<ContentFile<PostAttributes>[]> = inject(
+    TranslocoService
+  ).langChanges$.pipe(
+    map(lang => {
+      return this.files
+        .filter(post => {
+          const language = post.filename.split('/')[3];
+          console.log({language, filename: post.filename})
+          return lang === language;
+        })
+        .map(post => {
+          const language = post.filename.split('/')[3];
+          return {
+            ...post,
+            attributes: {
+              ...post.attributes,
+              language,
+            },
+          };
+        })
+    })
+  );
 }

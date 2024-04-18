@@ -1,65 +1,62 @@
-import { AfterViewInit, ChangeDetectorRef, Component, inject, OnDestroy, TemplateRef, Type, ViewChild } from '@angular/core';
-import { TranslocoService, TranslocoModule, TranslocoDirective, LangDefinition } from '@ngneat/transloco';
-import { SvgFlagUSAComponent } from './svg/svg-flag-us.component';
-import { SvgFlagSpainComponent } from './svg/svg-flag-spain.component';
 import { CommonModule } from '@angular/common';
-import { Subscription, take } from 'rxjs';
+import {
+  Component,
+  inject,
+  NgZone,
+  TemplateRef
+} from '@angular/core';
+import {
+  TranslocoDirective,
+  TranslocoModule,
+  TranslocoService
+} from '@ngneat/transloco';
+import { SvgFlagSpainComponent } from './svg/svg-flag-spain.component';
+import { SvgFlagUSAComponent } from './svg/svg-flag-us.component';
 
 @Component({
   selector: 'mb-switch-lang',
   standalone: true,
-  imports: [CommonModule, TranslocoModule, TranslocoDirective, SvgFlagUSAComponent, SvgFlagSpainComponent],
+  imports: [
+    CommonModule,
+    TranslocoModule,
+    SvgFlagUSAComponent,
+    SvgFlagSpainComponent,
+  ],
   template: `
-    <span (click)="toggleLanguage()">
-      <ng-container
-        *ngTemplateOutlet="currentTemplate"
-      ></ng-container>
-    </span>
-
-    <ng-template #usa>
-      <svg-flag-usa class="w-6 h-6" />
-    </ng-template>
-
-    <ng-template #spain>
-      <svg-flag-spain class="w-6 h-6" />
-    </ng-template>
+    <div class="relative w-6 h-6" (click)="toggleLanguage()">
+      <div
+        class="absolute inset-0 transition-opacity duration-700"
+        [ngClass]="{
+          'opacity-100': currentLang === 'en',
+          'opacity-0': currentLang !== 'en'
+        }"
+      >
+        <svg-flag-usa class="w-6 h-6" />
+      </div>
+      <div
+        class="absolute inset-0 transition-opacity duration-700"
+        [ngClass]="{
+          'opacity-100': currentLang === 'es',
+          'opacity-0': currentLang !== 'es'
+        }"
+      >
+        <svg-flag-spain class="w-6 h-6" />
+      </div>
+    </div>
   `,
   styles: ``,
 })
-export class SwitchLangComponent implements AfterViewInit, OnDestroy {
-  translocoService = inject(TranslocoService)
-  cdr = inject(ChangeDetectorRef)
+export class SwitchLangComponent {
+  private ngZone = inject(NgZone);
+  private translocoService = inject(TranslocoService);
 
-  availableLangs = this.translocoService.getAvailableLangs() as LangDefinition[];
-
-  @ViewChild('usa') usaTemplate!: TemplateRef<any>;
-  @ViewChild('spain') spainTemplate!: TemplateRef<any>;
-
-  currentTemplate!: TemplateRef<any>;
-  private subscription!: Subscription | null;
-
-  ngAfterViewInit(): void {
-    console.log({availableLangs: this.availableLangs})
-    this.updateFlagTemplate(this.translocoService.getActiveLang());
-    this.cdr.detectChanges();
-  }
+  currentLang: string = this.translocoService.getActiveLang();
 
   toggleLanguage(): void {
-    this.subscription?.unsubscribe();
-    const newLang = this.translocoService.getActiveLang() === 'en' ? 'es' : 'en';
-
-    this.subscription = this.translocoService.load(newLang).pipe(take(1)).subscribe(() => {
+    const newLang = this.currentLang === 'en' ? 'es' : 'en';
+    this.ngZone.run(() => {
       this.translocoService.setActiveLang(newLang);
-      this.updateFlagTemplate(newLang);
+      this.currentLang = newLang;
     });
-  }
-
-  private updateFlagTemplate(lang: string): void {
-    this.currentTemplate = lang === 'en' ? this.usaTemplate : this.spainTemplate;
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe()
-    this.subscription = null
   }
 }
