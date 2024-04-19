@@ -43,7 +43,6 @@ export default class BlogComponent {
       return this.files
         .filter(post => {
           const language = post.filename.split('/')[3];
-          console.log({language, filename: post.filename})
           return lang === language;
         })
         .map(post => {

@@ -4,5 +4,3 @@ export const environment = {
   apiUrl: import.meta.env['VITE_API_URL'],
   websiteUrl: import.meta.env['VITE_WEBSITE_URL'],
 };
-
-console.log('mode', import.meta.env.MODE)

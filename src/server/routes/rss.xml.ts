@@ -5,7 +5,7 @@ import * as path from 'path';
 import RSS from 'rss'
 import PostAttributes from 'src/app/post-attributes';
 
-const posts = fs.readdirSync('./src/content');
+const posts = fs.readdirSync('./src/content/en');
 
 async function generateRssFeed() {
   const site_url = 'https://bermell.dev';
@@ -25,7 +25,7 @@ async function generateRssFeed() {
   posts
     .map((postFile) => {
       const fileContents = fs.readFileSync(
-        path.resolve(`src/content/${postFile}`),
+        path.resolve(`src/content/en/${postFile}`),
         'utf8',
       );
       return {attributes: fm(fileContents).attributes as PostAttributes, slug: postFile};

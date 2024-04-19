@@ -1,4 +1,5 @@
 import {
+  ContentFile,
   ContentRenderer,
   injectContent,
   injectContentFiles,
@@ -9,6 +10,7 @@ import {
   Component,
   inject,
   Injector,
+  OnDestroy,
   OnInit,
   runInInjectionContext,
   ViewEncapsulation,
@@ -86,7 +88,7 @@ import PostAttributes from '../../post-attributes';
     `,
   ],
 })
-export default class PostComponent implements OnInit {
+export default class PostComponent implements OnInit, OnDestroy {
   private readonly title = inject(Title);
   private readonly meta = inject(Meta);
   private contentRenderer = inject(ContentRenderer);
@@ -94,40 +96,21 @@ export default class PostComponent implements OnInit {
   readonly allFiles = injectContentFiles<PostAttributes>();
   injector = inject(Injector);
   router = inject(Router);
-  destroy$ = new Subject<boolean>();
+  private destroy$ = new Subject<void>();
   headings: any = [];
 
   readonly post$ = this.transloco.langChanges$.pipe(
-    switchMap((lang) =>
-      combineLatest([
-        of(
-          this.allFiles.filter((file) => file.filename.split('/')[3] === lang),
-        ),
-        runInInjectionContext(this.injector, () =>
-          injectContent<PostAttributes>({ param: 'slug', subdirectory: lang }),
-        ),
-      ]).pipe(
-        map(([files, post]) => {
-          return { ...post };
-        }),
-        tap((post) => {
-          if (typeof post.content === 'string') {
-            this.updateMetaTags(post.attributes as PostAttributes);
-            this.updateContent(post.content, post.attributes);
-          }
-        }),
-      ),
-    ),
+    switchMap(lang => this.fetchPostAndFiles(lang)),
+    tap(post => this.handlePost(post))
   );
 
   ngOnInit(): void {
-    this.transloco.langChanges$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((lang) => {
-        const currentRoute = this.router.url;
-        const newRoute = this.updateRouteBasedOnLanguage(currentRoute, lang);
-        this.router.navigateByUrl(newRoute, { skipLocationChange: false });
-      });
+    this.handleLanguageChanges();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   updateRouteBasedOnLanguage(route: string, lang: string): string {
@@ -136,11 +119,9 @@ export default class PostComponent implements OnInit {
     const fragment = hashIndex > -1 ? route.substring(hashIndex) : '';
 
     const segments = baseUrl.split('/');
-    console.log('Segments:', segments);
 
     const file = this.allFiles.find((file) => file.slug === segments[2]);
     const fileLang = file?.filename.split('/')[3];
-    console.log('File language:', fileLang);
 
     if (fileLang === lang) {
       return route;
@@ -148,6 +129,30 @@ export default class PostComponent implements OnInit {
 
     const updatedBaseUrl = segments.join('/');
     return updatedBaseUrl + fragment;
+  }
+
+  private fetchPostAndFiles(lang: string) {
+    return combineLatest([
+      of(this.allFiles.filter(file => file.filename.split('/')[3] === lang)),
+      runInInjectionContext(this.injector, () =>
+        injectContent<PostAttributes>({ param: 'slug', subdirectory: lang })
+      )
+    ]).pipe(map(([_files, post]) => ({ ...post })));
+  }
+
+  private handlePost(post: ContentFile<any>) {
+    if (typeof post.content === 'string') {
+      this.updateMetaTags(post.attributes);
+      this.updateContent(post.content, post.attributes);
+    }
+  }
+
+  private handleLanguageChanges() {
+    this.transloco.langChanges$.pipe(takeUntil(this.destroy$)).subscribe(lang => {
+      const currentRoute = this.router.url;
+      const newRoute = this.updateRouteBasedOnLanguage(currentRoute, lang);
+      this.router.navigateByUrl(newRoute, { skipLocationChange: false });
+    });
   }
 
   private updateMetaTags(attributes: PostAttributes) {
