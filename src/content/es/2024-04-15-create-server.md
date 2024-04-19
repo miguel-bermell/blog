@@ -145,7 +145,7 @@ Una vez generado el token de GitHub y definida la URL del repositorio, procedere
 
 ```bash
 # Establece el token de GitHub como variable de entorno
-export GIT_TOKEN=ghp_d3nrpZHPTCGAOYBZop1VDCBDHQVgTj0OYxPu
+export GIT_TOKEN=xxxxx_xxxxx_xxxxx
 
 # Establece la URL de tu repositorio de GitHub como variable de entorno
 export GIT_REPO=https://github.com/miguel-bermell/autopilot.git
