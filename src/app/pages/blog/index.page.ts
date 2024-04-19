@@ -3,21 +3,23 @@ import { ContentFile, injectContentFiles } from '@analogjs/content';
 import PostAttributes from '../../post-attributes';
 import { RouterLink } from '@angular/router';
 import PostCardComponent from '../../components/post-card.component';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { map, Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-blog',
   standalone: true,
-  imports: [RouterLink, AsyncPipe, PostCardComponent],
+  imports: [RouterLink, AsyncPipe, TranslocoDirective, PostCardComponent],
   template: `
-    <h1>Blog Archive</h1>
-    <div class="flex flex-col gap-8">
-      @for (post of posts$ | async; track post.attributes.slug) {
-        <mb-post-card [post]="post.attributes" />
-      }
-    </div>
+    <ng-container *transloco="let t; read: 'blog'">
+      <h1>{{ t('title') }}</h1>
+      <div class="flex flex-col gap-8">
+        @for (post of posts$ | async; track post.attributes.slug) {
+          <mb-post-card [post]="post.attributes" />
+        }
+      </div>
+    </ng-container>
   `,
   styles: [
     `
@@ -37,15 +39,15 @@ import { AsyncPipe } from '@angular/common';
 export default class BlogComponent {
   readonly files = injectContentFiles<PostAttributes>();
   readonly posts$: Observable<ContentFile<PostAttributes>[]> = inject(
-    TranslocoService
+    TranslocoService,
   ).langChanges$.pipe(
-    map(lang => {
+    map((lang) => {
       return this.files
-        .filter(post => {
+        .filter((post) => {
           const language = post.filename.split('/')[3];
           return lang === language;
         })
-        .map(post => {
+        .map((post) => {
           const language = post.filename.split('/')[3];
           return {
             ...post,
@@ -54,7 +56,7 @@ export default class BlogComponent {
               language,
             },
           };
-        })
-    })
+        });
+    }),
   );
 }

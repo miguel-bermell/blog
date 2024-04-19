@@ -25,7 +25,7 @@ import { TagComponent } from './tag.component';
 
         <a
           [routerLink]="['/blog/', post.slug]"
-          class="px-5 pt-5 grow flex flex-col backdrop-blur hover:bg-gray-800 hover:opacity-75 transition-all"
+          class="px-5 pt-5 grow flex flex-col backdrop-blur hover:backdrop-brightness-90 transition-all duration-150"
         >
           <div class="grow">
             <span class="text-4xl block">{{ post.title }}</span>
