@@ -5,13 +5,15 @@ import { provideFileRouter } from '@analogjs/router';
 import { provideContent, withMarkdownRenderer } from '@analogjs/content';
 import { TranslocoHttpLoader } from './transloco-loader';
 import { getBrowserLang, provideTransloco } from '@ngneat/transloco';
+import { withViewTransitions } from '@angular/router';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideFileRouter(),
+    provideFileRouter(withViewTransitions()),
     provideHttpClient(withFetch()),
     provideClientHydration(),
-    provideContent(withMarkdownRenderer()), provideHttpClient(), 
+    provideContent(withMarkdownRenderer()), 
+    provideHttpClient(), 
     provideTransloco({
         config: { 
           availableLangs: ['en', 'es'],
