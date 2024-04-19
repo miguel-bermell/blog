@@ -4,16 +4,17 @@ import {Component, inject, signal, Input} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import { Router } from '@angular/router';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 @Component({
   selector: 'mb-post-navigation',
   standalone: true,
-  imports: [RouterLink, NgFor, NgIf],
+  imports: [RouterLink, NgFor, NgIf, TranslocoDirective],
   template: `
     <aside>
       <nav>
-          <header>
-            <h2>Article Content</h2>
+          <header *transloco="let t; read: 'blog'">
+            <h2>{{ t('navigationTitle') }}</h2>
           </header>
           <ul>
             <li

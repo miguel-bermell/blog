@@ -27,7 +27,7 @@ import { TranslocoDirective } from '@ngneat/transloco';
         </p>
 
         <p class="mt-2">
-          {{ t('personalInterests') }}
+          {{ t('blog') }}
         </p>
       </section>
     </ng-container>

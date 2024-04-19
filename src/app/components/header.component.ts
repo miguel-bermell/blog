@@ -18,11 +18,11 @@ import { SwitchLangComponent } from './switch-lang.component';
           [routerLink]="['/']"
         />
         <nav>
-          <ul *transloco="let t; read: 'navigation'" class="flex list-none items-center ml-10">
+          <ul *transloco="let t; read: 'navigation'" class="flex list-none items-center ml-1 lg:ml-10">
             @for (link of links; track link.id) {
               <li class="ml-0">
                 <a
-                  class="no-underline weight font-bold text-shadow px-4 transition-colors duration-300"
+                  class="no-underline weight font-bold text-shadow px-3 transition-colors duration-300"
                   [routerLink]="link.url"
                   routerLinkActive="text-[var(--secondary)]"
                   [routerLinkActiveOptions]="{ exact: true }"

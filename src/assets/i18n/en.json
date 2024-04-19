@@ -6,15 +6,16 @@
   },
   "home": {
     "welcomeTitle": "Welcome to my personal space!",
-    "intro": "I am Miguel García Bermell, a full stack developer with around 4 years of experience. I currently work at Allfunds where I apply my specialization",
-    "freeTime": "In my free time, I enjoy exploring projects with Arduino and other microcontrollers.",
-    "gamingHistory": "Previously, I played video games professionally and was recognized as one of the best players in Spain. Although my free time is more limited now, I still find moments to enjoy a few games.",
-    "professionalFocus": "I am dedicated to developing web applications that are not only efficient and scalable, but also user-friendly. My interest in software architecture, infrastructure, and maintaining clean code drives my constant learning and improvement, both inside and outside of work.",
-    "personalInterests": "When I am not immersed in code or keeping up with the latest technological trends, you are likely to find me reading a good book or investigating new technologies, always driven by curiosity.",
+    "intro": "I'm Miguel García Bermell, a full stack developer with around 4 years of experience. I currently work at Allfunds, where I mainly develop solutions",
+    "freeTime": "In my free time, I enjoy reading, spending quality time with my family, and playing with electronic projects using microcontrollers like Arduino or ESP32.",
+    "gamingHistory": "Before diving into the world of programming, I competed professionally in video games, being recognized as one of the best players in Spain. Although my free time is now more limited, I still find moments to enjoy some games.",
+    "professionalFocus": "I am dedicated to developing efficient and scalable web applications. Moreover, I have a great passion for software architecture and infrastructure, and I firmly believe in the importance of a solid design that supports the growth and efficiency of applications.",
+    "blog": "This blog is my space to share everything I learn. It also acts as my digital notebook, which I turn to when my memory needs a little help everything can't be stored up there! I hope what you discover here motivates and enriches you.",
     "in": "in",
     "and": "and"
   },
   "blog": {
-    "title": "Blog Archive"
+    "title": "Blog Archive",
+    "navigationTitle": "Article Content"
   }  
 }

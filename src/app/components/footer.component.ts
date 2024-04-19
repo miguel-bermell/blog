@@ -5,7 +5,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
   standalone: true,
   imports: [],
   template: `
-  <footer class="py-3">
+  <footer class="py-5">
     <div
       class="h-[2px] w-full rounded-[30%]"
       style="background:linear-gradient(to right, transparent 3%, white 35%, white 65%, transparent 97%)"
@@ -14,7 +14,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
     <div class="py-5 text-center sm:flex sm:items-center sm:justify-between">
       <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400"
         >© 2024
-        <a href="mailto:miguelbermell@gmail.com" rel="noopener nofollow" class="hover:underline">Miguel Bermell</a
+        <a href="mailto:hello@bermell.dev" rel="noopener nofollow" class="hover:underline">Miguel Bermell</a
         >.
       </span>
       <div class="flex mt-4 justify-center sm:justify-start sm:mt-0">

@@ -5,16 +5,17 @@
     "about": "Acerca de"
   },
   "home": {
-    "welcomeTitle": "¡Bienvenido a mi rincón personal!",
-    "intro": "Soy Miguel García Bermell, un desarrollador full stack con aproximadamente 4 años de experiencia. Actualmente trabajo en Allfunds donde aplico mi especialización",
-    "freeTime": "En mi tiempo libre, disfruto explorando proyectos con Arduino y otros microcontroladores.",
-    "gamingHistory": "Anteriormente, jugué videojuegos profesionalmente y fui reconocido como uno de los mejores jugadores en España. Aunque ahora mi tiempo libre es más limitado, aún encuentro momentos para disfrutar de algunas partidas.",
-    "professionalFocus": "Estoy dedicado al desarrollo de aplicaciones web que no solo son eficientes y escalables, sino también amigables para el usuario. Mi interés en la arquitectura de software, infraestructura y el mantenimiento de código limpio impulsa mi aprendizaje y mejora constantes, tanto dentro como fuera del trabajo.",
-    "personalInterests": "Cuando no estoy sumergido en el código o manteniéndome al día con las últimas tendencias tecnológicas, es probable que me encuentres leyendo un buen libro o investigando nuevas tecnologías, siempre impulsado por la curiosidad.",
+    "welcomeTitle": "¡Bienvenid@ a mi rincón digital!",
+    "intro": "Soy Miguel García Bermell, un desarrollador full stack con aproximadamente 4 años de experiencia. Actualmente trabajo en Allfunds, donde desarrollo soluciones principalmente",
+    "freeTime": "En mi tiempo libre, disfruto de la lectura, pasar tiempo de calidad con mi familia y jugar con proyectos de electrónica usando microcontroladores como arduino o ESP32.",
+    "gamingHistory": "Antes de sumergirme en el mundo de la programación, competí profesionalmente en videojuegos, llegando a ser reconocido como uno de los mejores jugadores de España. Aunque ahora mi tiempo libre es más limitado, aún encuentro momentos para disfrutar de algunas partidas.",
+    "professionalFocus": "Me dedico al desarrollo de aplicaciones web eficientes y escalables. Además, tengo una gran pasión por la arquitectura de software y la infraestructura, y creo firmemente en la importancia de un diseño sólido que respalde el crecimiento y la eficiencia de las aplicaciones.",
+    "blog": "Este blog es mi espacio para compartir todo lo que voy aprendiendo. También funciona como mi libreta de apuntes digital, a la que recurro cuando mi memoria necesita un poco de ayuda ¡no se puede almacenar todo allá arriba! Espero que lo que descubras aquí te motive y te enriquezca.",
     "in": "en",
     "and": "y"
   },
   "blog": {
-    "title": "Archivo del Blog"
+    "title": "Archivo del Blog",
+    "navigationTitle": "Contenido"
   }  
 }
