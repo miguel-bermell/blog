@@ -63,6 +63,15 @@ pre[class*="language-"]::before {
 		38px 0 0 #27c93f;
 }
 
+:not(pre)>code {
+	background: #fafafa;
+	border-radius: 2px;
+	color: #1e1e1e;
+	padding: 2px 4px 1px;
+	white-space: normal;
+	font-size: 16px;
+}
+
 :not(pre) > code[class*="language-"] {
 	padding: .1em .3em;
 	border-radius: .3em;

@@ -12,18 +12,18 @@ export const appConfig: ApplicationConfig = {
     provideFileRouter(withViewTransitions()),
     provideHttpClient(withFetch()),
     provideClientHydration(),
-    provideContent(withMarkdownRenderer()), 
-    provideHttpClient(), 
+    provideContent(withMarkdownRenderer()),
+    provideHttpClient(),
     provideTransloco({
-        config: { 
-          availableLangs: ['en', 'es'],
-          defaultLang: getBrowserLang() ?? 'en',
-          fallbackLang: 'en',
-          // Remove this option if your application doesn't support changing language in runtime.
-          reRenderOnLangChange: true,
-          prodMode: !isDevMode(),
-        },
-        loader: TranslocoHttpLoader
-      }),
+      config: {
+        availableLangs: ['en', 'es'],
+        defaultLang: getBrowserLang() ?? 'en',
+        fallbackLang: 'en',
+        // Remove this option if your application doesn't support changing language in runtime.
+        reRenderOnLangChange: true,
+        prodMode: !isDevMode(),
+      },
+      loader: TranslocoHttpLoader,
+    }),
   ],
 };

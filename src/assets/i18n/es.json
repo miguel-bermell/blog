@@ -16,6 +16,7 @@
   },
   "blog": {
     "title": "Archivo del Blog",
-    "navigationTitle": "Contenido"
+    "navigationTitle": "Contenido",
+    "share": "Comparte el artículo"
   }  
 }

@@ -1,6 +1,6 @@
 ---
 title: Ubuntu Server para Despliegues Automáticos
-slug: 2024-04-15-create-server-post
+slug: 2024-04-15-create-server-argocd
 description: Aprende a configurar Ubuntu Server con Docker, Kubernetes y ArgoCD para despliegues automáticos. Guía paso a paso para construir y administrar aplicaciones de manera eficiente y escalable.
 coverImage: 'server.webp'
 date: 2024-04-15
@@ -123,7 +123,7 @@ argocd-autopilot version
 ```bash
 microk8s config > ~/.kube/config
 ```
-Este comando exporta la configuración de MicroK8s a tu archivo ~/.kube/config, que es el archivo de configuración estándar utilizado por kubectl. Este paso es importante porque muchos otros comandos y herramientas de Kubernetes, incluido argocd-autopilot, utilizan este archivo para conectarse al clúster de Kubernetes.
+Este comando exporta la configuración de MicroK8s a tu archivo `~/.kube/config`, que es el archivo de configuración estándar utilizado por kubectl. Este paso es importante porque muchos otros comandos y herramientas de Kubernetes, incluido argocd-autopilot, utilizan este archivo para conectarse al clúster de Kubernetes.
 
 Puedes verificar que el contexto correcto esté configurado con:
 ```bash
@@ -224,14 +224,14 @@ choco install kubernetes-cli
 
 ##### Paso 2: Configurar acceso al clúster
 
-Para que **kubectl** se conecte a tu clúster de Kubernetes remoto, necesitarás configurar tus credenciales y la información del clúster en el archivo ~/.kube/config de tu máquina local.
+Para que **kubectl** se conecte a tu clúster de Kubernetes remoto, necesitarás configurar tus credenciales y la información del clúster en el archivo `~/.kube/config` de tu máquina local.
 
 Procedemos a exportar la configuración de MicroK8s de nuestro servidor.
 
 ```bash
 microk8s config
 ```
-Copia la salida de este comando y guárdala como tu archivo ~/.kube/config en tu máquina local.
+Copia la salida de este comando y guárdala como tu archivo `~/.kube/config` en tu máquina local.
 
 Si aún no tienes un directorio .kube, créalo en tu directorio home:
 
@@ -265,4 +265,4 @@ Ahora deberías poder acceder a la interfaz web. puedes usar el siguiente comand
 ```bash
 kubectl port-forward svc/argocd-server -n argocd 8080:443
 ```
-Este comando reenviará el puerto 8080 de tu máquina local al puerto 443 del servicio argocd-server en el espacio de nombres argocd. Puedes abrir un navegador web y acceder a la interfaz de Argo CD mediante http://localhost:8080.
+Este comando reenviará el puerto 8080 de tu máquina local al puerto 443 del servicio argocd-server en el namespace argocd. Puedes abrir un navegador web y acceder a la interfaz de Argo CD mediante http://localhost:8080.

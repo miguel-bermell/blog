@@ -1,14 +1,14 @@
-import { DatePipe } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import PostAttributes from '../post-attributes';
 import { TAGS } from '../utils/tags';
 import { TagComponent } from './tag.component';
+import { DateComponent } from './date.component';
 
 @Component({
   selector: 'mb-post-card',
   standalone: true,
-  imports: [RouterLink, DatePipe, TagComponent],
+  imports: [RouterLink, TagComponent, DateComponent],
   template: `
     @if (post(); as post) {
       <div
@@ -29,7 +29,7 @@ import { TagComponent } from './tag.component';
         >
           <div class="grow">
             <span class="text-4xl block">{{ post.title }}</span>
-            <small>{{ post.date | date: 'longDate' }}</small>
+            <small><mb-date [date]="post.date" /></small>
             <p class="post__desc">{{ post.description }}</p>
           </div>
           <div class="flex flex-wrap gap-3 pb-3">

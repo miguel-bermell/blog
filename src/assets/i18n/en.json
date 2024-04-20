@@ -16,6 +16,7 @@
   },
   "blog": {
     "title": "Blog Archive",
-    "navigationTitle": "Article Content"
+    "navigationTitle": "Article Content",
+    "share": "Share the article"
   }  
 }

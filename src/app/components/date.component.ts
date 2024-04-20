@@ -2,25 +2,20 @@ import { DatePipe } from '@angular/common';
 import { Component, inject, input, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoService } from '@ngneat/transloco';
-import { DateComponent } from './date.component';
+
 @Component({
-  selector: 'mb-post-info',
+  selector: 'mb-date',
   standalone: true,
-  imports: [DatePipe, DateComponent],
+  imports: [DatePipe],
   template: `
-    <small class="block mb-[-8px]">Miguel García Bermell</small>
-    <small>
-      {{ readingTime() }} min -
-      <mb-date [date]="date()" />
-    </small>
+      <span class="text-[var(--primary)] py-0">
+        {{ date() | date: 'longDate':undefined:currentLang() }}
+      </span>
   `,
   styles: `
-    :host {
-      display: block;
-    }
   `,
 })
-export class PostInfoComponent {
+export class DateComponent {
   constructor() {
     inject(TranslocoService).langChanges$
       .pipe(takeUntilDestroyed())
@@ -29,7 +24,5 @@ export class PostInfoComponent {
       });
   }
   public currentLang = signal('en')
-  
-  readingTime = input<number>();
   date = input<string>();
 }

@@ -1,6 +1,6 @@
 ---
 title: Ubuntu Server for Automated Deployments
-slug: 2024-04-15-create-server-post
+slug: 2024-04-15-create-server-argocd
 description: Learn how to set up Ubuntu Server with Docker, Kubernetes, and ArgoCD for automated deployments. A step-by-step guide to building and managing applications efficiently and scalably.
 coverImage: 'server.webp'
 date: 2024-04-15
@@ -123,7 +123,7 @@ argocd-autopilot version
 ```bash
 microk8s config > ~/.kube/config
 ```
-This command exports the MicroK8s configuration to your ~/.kube/config file, which is the standard configuration file used by kubectl. This step is important because many other Kubernetes commands and tools, including argocd-autopilot, use this file to connect to the Kubernetes cluster.
+This command exports the MicroK8s configuration to your `~/.kube/config` file, which is the standard configuration file used by kubectl. This step is important because many other Kubernetes commands and tools, including argocd-autopilot, use this file to connect to the Kubernetes cluster.
 
 You can verify that the correct context is configured with:
 ```bash
@@ -225,14 +225,14 @@ choco install kubernetes-cli
 
 ##### Step 2: Configure access to the cluster
 
-For **kubectl** to connect to your remote Kubernetes cluster, you will need to configure your credentials and cluster information in the **~/.kube/config** file on your local machine.
+For **kubectl** to connect to your remote Kubernetes cluster, you will need to configure your credentials and cluster information in the `~/.kube/config` file on your local machine.
 
 Proceed to export the MicroK8s configuration from our server.
 
 ```bash
 microk8s config
 ```
-Copy the output of this command and save it as your **~/.kube/config** file on your local machine.
+Copy the output of this command and save it as your `~/.kube/config` file on your local machine.
 
 If you do not already have a .kube directory, create one in your home directory:
 
