@@ -195,7 +195,7 @@ export default class PostComponent implements OnInit, OnDestroy {
       name: 'og:description',
       content: attributes.description,
     });
-    this.meta.updateTag({ name: 'og:image', content: attributes.coverImage });
+    this.meta.updateTag({ name: 'og:image', content: `${this.baseUrl}/images/${attributes.coverImage}`});
     this.meta.updateTag({ name: 'og:title', content: attributes.title });
     this.meta.updateTag({
       name: 'og:url',
@@ -212,7 +212,7 @@ export default class PostComponent implements OnInit, OnDestroy {
     });
     this.meta.updateTag({
       name: 'twitter:image',
-      content: attributes.coverImage,
+      content: `${this.baseUrl}/images/${attributes.coverImage}`,
     });
     this.meta.updateTag({
       name: 'twitter:image:alt',
