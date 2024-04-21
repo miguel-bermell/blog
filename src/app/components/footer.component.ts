@@ -14,7 +14,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
     <div class="py-5 text-center sm:flex sm:items-center sm:justify-between">
       <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400"
         >© 2024
-        <a href="mailto:hello@bermell.dev" rel="noopener nofollow" class="hover:underline">Miguel Bermell</a
+        <a href="mailto:hola@bermell.dev" rel="noopener nofollow" class="hover:underline">Miguel Bermell</a
         >.
       </span>
       <div class="flex mt-4 justify-center sm:justify-start sm:mt-0">

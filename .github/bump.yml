@@ -3,48 +3,55 @@ release:
   initial-version: '0.0.1'
   tag-prefix: 'v'
   commit-note-replacers:
-    - replace-prefix: 'feat():'
+    - replace-prefix: 'feat(): '
       new-prefix: 'feature: '
-    - replace-prefix: 'fix():'
+    - replace-prefix: 'fix(): '
       new-prefix: 'fix: '
-    - replace-prefix: 'docs():'
+    - replace-prefix: 'docs(): '
       new-prefix: 'document: '
-    - replace-prefix: 'chore():'
+    - replace-prefix: 'chore(): '
       new-prefix: 'chore: '
-    - replace-prefix: 'style():'
+    - replace-prefix: 'style(): '
       new-prefix: 'style: '
-    - replace-prefix: 'refactor():'
+    - replace-prefix: 'refactor(): '
       new-prefix: 'refactor: '
-    - replace-prefix: 'test():'
+    - replace-prefix: 'test(): '
       new-prefix: 'test: '
-    - replace-prefix: 'wip():'
+    - replace-prefix: 'wip(): '
       new-prefix: 'wip: '
+branch:
+  version-branch-prefix: 'v'
+  bump-version-commit-prefix: 'v'
 categories:
   - title: 'Features'
     commits:
-      - 'feature: '
+      - 'feature:'
     changes-prefix: ':sparkles:'
   - title: 'Bug Fixes'
     commits:
-      - 'fix: '
+      - 'fix:'
     changes-prefix: ':bug:'
   - title: 'Documentation'
     commits:
-      - 'document: '
+      - 'document:'
     changes-prefix: ':memo:'
   - title: 'Others'
     commits:
-      - 'chore: '
-      - 'style: '
-      - 'refactor: '
-      - 'test: '
-      - 'wip: '
+      - 'chore:'
+      - 'style:'
+      - 'refactor:'
+      - 'test:'
+      - 'wip:'
     changes-prefix: ':hammer:'
 bump:
   default: 'patch'
   major:
+    labels:
+      - 'BreakingChange'
     commits:
       - 'breaking:'
   minor:
+    labels:
+      - 'Feature'
     commits:
-      - 'feature: '
+      - 'feature:'

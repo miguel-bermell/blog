@@ -24,7 +24,7 @@ import { SwitchLangComponent } from './switch-lang.component';
                 <a
                   class="no-underline weight font-bold text-shadow px-3 transition-colors duration-300"
                   [routerLink]="link.url"
-                  routerLinkActive="text-[var(--secondary)]"
+                  routerLinkActive="text-[var(--primary)]"
                   [routerLinkActiveOptions]="{ exact: true }"
                 >
                   {{ t(link.name) }}

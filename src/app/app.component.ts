@@ -2,6 +2,11 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header.component';
 import { FooterComponent } from './components/footer.component';
+import { registerLocaleData } from '@angular/common';
+
+import localeEs from '@angular/common/locales/es';
+import localeEn from '@angular/common/locales/en';
+
 
 @Component({
   selector: 'app-root',
@@ -17,4 +22,9 @@ import { FooterComponent } from './components/footer.component';
     </main>
   `
 })
-export class AppComponent {}
+export class AppComponent {
+  constructor() {
+    registerLocaleData(localeEs, 'es');
+    registerLocaleData(localeEn, 'en');
+  }
+}
