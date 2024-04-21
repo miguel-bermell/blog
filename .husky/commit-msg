@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+commit_message="$(cat "$1")"
+
+prefixes="^(feat|fix|docs|style|refactor|test|chore|break)\(\): .*$"
+
+if ! echo "$commit_message" | grep -Eq "$prefixes"; then
+  echo "The commit message must have a change type prefix ($prefixes)"
+  exit 1
+fi

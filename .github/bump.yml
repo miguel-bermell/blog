@@ -3,55 +3,67 @@ release:
   initial-version: '0.0.1'
   tag-prefix: 'v'
   commit-note-replacers:
+    - replace-prefix: 'break(): '
+      new-prefix: ''
     - replace-prefix: 'feat(): '
-      new-prefix: 'feature: '
+      new-prefix: ''
+    - replace-prefix: 'change: '
+      new-prefix: ''
     - replace-prefix: 'fix(): '
-      new-prefix: 'fix: '
-    - replace-prefix: 'docs(): '
-      new-prefix: 'document: '
+      new-prefix: ''
+    - replace-prefix: 'document: '
+      new-prefix: ''
     - replace-prefix: 'chore(): '
-      new-prefix: 'chore: '
-    - replace-prefix: 'style(): '
-      new-prefix: 'style: '
-    - replace-prefix: 'refactor(): '
-      new-prefix: 'refactor: '
-    - replace-prefix: 'test(): '
-      new-prefix: 'test: '
-    - replace-prefix: 'wip(): '
-      new-prefix: 'wip: '
+      new-prefix: ''
 branch:
   version-branch-prefix: 'v'
   bump-version-commit-prefix: 'v'
 categories:
-  - title: 'Features'
+  - title: 'Breaking Changes!'
+    labels:
+      - 'BreakingChange'
     commits:
-      - 'feature:'
-    changes-prefix: ':sparkles:'
+      - 'break():'
+    changes-prefix: ':warning: '
+  - title: 'Changes'
+    labels:
+      - 'Feature'
+    commits:
+      - 'feat():'
+    changes-prefix: ':gift: '
+  - title: 'Changes'
+    labels:
+      - Maintenance
+    commits:
+      - 'change:'
+    changes-prefix: ':hammer: '
   - title: 'Bug Fixes'
+    labels:
+      - 'Bug'
     commits:
-      - 'fix:'
-    changes-prefix: ':bug:'
-  - title: 'Documentation'
+      - 'fix():'
+    changes-prefix: ':ambulance: '
+  - title: 'Changes'
+    labels:
+      - 'Documentation'
     commits:
       - 'document:'
-    changes-prefix: ':memo:'
-  - title: 'Others'
+    changes-prefix: ':blue_book: '
+  - title: 'Chore Updates'
+    labels:
+      - 'Chore'
     commits:
-      - 'chore:'
-      - 'style:'
-      - 'refactor:'
-      - 'test:'
-      - 'wip:'
-    changes-prefix: ':hammer:'
+      - 'chore():'
+    changes-prefix: ':green_book: '
 bump:
   default: 'patch'
   major:
     labels:
       - 'BreakingChange'
     commits:
-      - 'breaking:'
+      - 'break():'
   minor:
     labels:
       - 'Feature'
     commits:
-      - 'feature:'
+      - 'feat():'
