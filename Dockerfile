@@ -10,11 +10,9 @@ COPY . .
 
 RUN npm run build
 
-FROM nginx:stable-alpine
+FROM nginx:alpine
 
 COPY --from=builder /app/dist/analog/public /usr/share/nginx/html
-
-# COPY nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80
 
