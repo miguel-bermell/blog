@@ -3,7 +3,6 @@
 import { defineConfig } from 'vite';
 import analog, { PrerenderContentFile } from '@analogjs/platform';
 import * as fs from 'fs';
-import * as path from 'path';
 
 const getPostRoutes = (language: string) => {
   const posts = fs.readdirSync(`./src/content/${language}`);
@@ -39,18 +38,15 @@ export default defineConfig(({ mode }) => ({
               if (file.attributes['draft']) {
                 return false;
               }
-              const slug = file.attributes['slug'] ?? path.parse(file.name).name
+              const slug = file.attributes['slug'] ?? file.name
               return `/blog/${slug}`;
             },
           },
         ],
         sitemap: {
-          host: 'https://bermell.dev'
+          host: 'https://bermell.dev/'
         }
       },
-      nitro: {
-        preset: 'node-server'
-      }
     }),
   ],
   test: {
