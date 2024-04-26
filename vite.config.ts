@@ -45,10 +45,14 @@ export default defineConfig(({ mode }) => ({
         ],
         sitemap: {
           host: 'https://bermell.dev/'
-        }
+        },
       },
       nitro: {
-        preset: 'vercel'
+        static: true,
+        preset: 'static',
+        prerender: {
+          autoSubfolderIndex: false,
+        },
       },
     }),
   ],
