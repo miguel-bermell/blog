@@ -47,6 +47,11 @@ export default defineConfig(({ mode }) => ({
           host: 'https://bermell.dev/'
         }
       },
+      nitro: {
+        prerender: {
+          autoSubfolderIndex: false,
+        },
+      },
     }),
   ],
   test: {
