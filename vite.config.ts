@@ -48,9 +48,7 @@ export default defineConfig(({ mode }) => ({
         }
       },
       nitro: {
-        prerender: {
-          autoSubfolderIndex: false,
-        },
+        preset: 'vercel'
       },
     }),
   ],
