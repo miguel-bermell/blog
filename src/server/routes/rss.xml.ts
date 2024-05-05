@@ -7,6 +7,13 @@ import PostAttributes from 'src/app/post-attributes';
 
 const posts = fs.readdirSync('./src/content/en');
 
+function getFileContentsByLang(postFile: string, lang: string) {
+  return fs.readFileSync(
+    path.resolve(`src/content/${lang}/${postFile}`),
+    'utf8',
+  )
+}
+
 async function generateRssFeed() {
   const site_url = 'https://bermell.dev';
 
@@ -23,12 +30,16 @@ async function generateRssFeed() {
   const feed = new RSS(feedOptions);
 
   posts
-    .map((postFile) => {
-      const fileContents = fs.readFileSync(
-        path.resolve(`src/content/en/${postFile}`),
-        'utf8',
-      );
-      return {attributes: fm(fileContents).attributes as PostAttributes, slug: postFile};
+    .flatMap((postFile) => {
+      const fileContents = {
+        en: getFileContentsByLang(postFile, 'en'),
+        es: getFileContentsByLang(postFile, 'es')
+      };
+
+      return [
+        {attributes: fm(fileContents.en).attributes as PostAttributes, slug: postFile},
+        {attributes: fm(fileContents.es).attributes as PostAttributes, slug: postFile}
+      ];
     })
     .sort((a1, a2) => ((a1.attributes as any).date > (a2.attributes as any).date ? -1 : 1))
     .forEach(({attributes, slug}) => {
