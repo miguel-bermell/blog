@@ -11,15 +11,14 @@ import {
   TranslocoService
 } from '@ngneat/transloco';
 import { SvgFlagSpainComponent } from './svg/svg-flag-spain.component';
-import { SvgFlagUSAComponent } from './svg/svg-flag-us.component';
-
+import { SvgFlagUKComponent } from './svg/svg-flag-uk.component';
 @Component({
   selector: 'mb-switch-lang',
   standalone: true,
   imports: [
     CommonModule,
     TranslocoModule,
-    SvgFlagUSAComponent,
+    SvgFlagUKComponent,
     SvgFlagSpainComponent,
   ],
   template: `
@@ -31,7 +30,7 @@ import { SvgFlagUSAComponent } from './svg/svg-flag-us.component';
           'opacity-0': currentLang !== 'en'
         }"
       >
-        <svg-flag-usa class="w-6 h-6" />
+        <svg-flag-uk class="w-6 h-6" />
       </div>
       <div
         class="absolute inset-0 transition-opacity duration-700"
