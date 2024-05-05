@@ -36,6 +36,19 @@ iface enp3s0 inet static
     dns-nameservers 8.8.8.8 8.8.4.4
 ```
 
+#### Configurar IP estática en el router
+
+> **Nota importante:** Si no tienes un servidor o un PC dedicado en casa que requiera una configuración específica de red, puedes omitir esta sección y avanzar a los siguientes pasos de configuración.
+
+Para garantizar que tu servidor siempre tenga la misma dirección IP dentro de tu red local, es esencial configurar una IP estática en el router.
+
+1. Accede a la interfaz de administración del router generalmente (192.168.1.1 o 192.168.0.1)
+2. Navega a la configuración de LAN o Red Local
+3. Asigna una IP estática (busca una opción que permita reservar direcciones IP o configurar IPs estáticas)
+
+Deberías ver algo similar a esto: ![Address](/images/address_reservation.png)
+
+
 ### Configuración inicial Docker, Kubernetes y ArgoCD
 
 #### Paso 1: Actualizar el Sistema
@@ -62,6 +75,7 @@ MicroK8s es una distribución de Kubernetes ligera, ideal para pequeñas cargas 
 ```bash
 sudo snap install microk8s --classic
 sudo usermod -aG microk8s $USER
+mkdir -p ~/.kube
 sudo chown -f -R $USER ~/.kube
 ```
 Al igual que con Docker, necesitarás cerrar sesión y volver a iniciarla.
@@ -90,7 +104,7 @@ microk8s enable dns storage
 ```
 
 #### Paso 5: Instalar y Configurar Argo CD
-ArgoCD es una herramienta de entrega continua, que permite la implementación automática de aplicaciones en un entorno de Kubernetes.
+ArgoCD es una herramienta de integracion continua, que permite la implementación automática de aplicaciones en un entorno de Kubernetes.
 Hay varias formas de instalar/configurar ArgoCD, en este caso lo haremos utilizando [Autopilot](https://github.com/argoproj-labs/argocd-autopilot) (Autopilot es una herramienta diseñada para simplificar y automatizar la configuración y gestión de Argo CD, especialmente en entornos de producción.)
 
 **Utilizando brew:**
@@ -184,6 +198,22 @@ Si olvidas la contraseña del administrador de ArgoCD, puedes recuperarla fácil
 kubectl get secret argocd-initial-admin-secret -n argocd -ogo-template='{{printf "%s\n" (index (index . "data") "password" | base64decode)}}'
 ```
 
+El token de github se almacena en un secreto de kubernetes que puedes consultar para revisarlo o modificarlo si caduca.
+
+```bash
+# Consultar y decodificar el token de GitHub almacenado en Kubernetes:
+kubectl get secret autopilot-secret -n argocd -o jsonpath="{.data.git_token}" | base64 --decode
+echo # Github token:
+```
+
+```bash
+# Modificar el token de GitHub
+# Codifica el nuevo valor del token en base64:
+echo -n 'new_token_value' | base64
+# Luego, edita el secret en Kubernetes:
+kubectl edit secret autopilot-secret -n argocd
+```
+
 Para comenzar a organizar tus aplicaciones, primero crea un proyecto en ArgoCD con el siguiente comando:
 
 ```bash
@@ -228,6 +258,13 @@ Para que **kubectl** se conecte a tu clúster de Kubernetes remoto, necesitarás
 
 Procedemos a exportar la configuración de MicroK8s de nuestro servidor.
 
+##### Windows:
+
+```bash
+scp usuario@servidor:~/.kube/config C:\ruta-usuario\.kube\config
+```
+##### Linux:
+
 ```bash
 microk8s config
 ```
@@ -266,3 +303,4 @@ Ahora deberías poder acceder a la interfaz web. puedes usar el siguiente comand
 kubectl port-forward svc/argocd-server -n argocd 8080:443
 ```
 Este comando reenviará el puerto 8080 de tu máquina local al puerto 443 del servicio argocd-server en el namespace argocd. Puedes abrir un navegador web y acceder a la interfaz de Argo CD mediante http://localhost:8080.
+

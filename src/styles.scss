@@ -184,7 +184,6 @@ blockquote p {
 }
 
 li {
-  margin-left: 2rem;
   font-weight: 400;
   line-height: 1.45;
 }
@@ -206,6 +205,10 @@ p {
     &:hover {
       filter: brightness(0.8);
     }
+  }
+
+  img {
+    border-radius: 0.5rem;
   }
 
 }

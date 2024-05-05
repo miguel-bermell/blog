@@ -1,5 +1,7 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+/.env
+/TODO.md
 # Compiled output
 /dist
 /tmp
@@ -37,7 +39,7 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
-.env
+.wrangler
 
 # System files
 .DS_Store

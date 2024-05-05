@@ -4,6 +4,9 @@
     "blog": "Blog",
     "about": "About"
   },
+  "header": {
+    "search": "Search"
+  },
   "home": {
     "welcomeTitle": "Welcome to my personal space!",
     "intro": "I'm Miguel García Bermell, a full stack developer with around 4 years of experience. I currently work at Allfunds, where I mainly develop solutions",
@@ -17,6 +20,7 @@
   "blog": {
     "title": "Blog Archive",
     "navigationTitle": "Article Content",
-    "share": "Share the article"
+    "share": "Share the article",
+    "description": "articles on JavaScript, TypeScript, React, Docker, Kubernetes, Testing and more."
   }  
 }

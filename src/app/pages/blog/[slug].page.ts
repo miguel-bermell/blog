@@ -79,10 +79,10 @@ import { environment } from '../../../environments/environment';
         <!-- POST INFO -->
         <div class="flex gap-3 py-4 items-center">
           <img
-            class="w-8 h-8 rounded-full"
+            class="w-10 h-10 rounded-full"
             ngSrc="https://avatars.githubusercontent.com/u/79775760?v=4"
-            height="32"
-            width="32"
+            height="36"
+            width="36"
             alt="Miguel Bermell"
           />
 

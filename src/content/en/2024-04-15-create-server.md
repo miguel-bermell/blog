@@ -36,6 +36,16 @@ iface enp3s0 inet static
     dns-nameservers 8.8.8.8 8.8.4.4
 ```
 
+#### Setting a Static IP on Your Router
+
+> **Important Note:** If you don't have a server or a dedicated PC at home that requires specific network settings, you can skip this section and move on to the next setup steps.
+
+1. Access the router’s administration interface (usually at 192.168.1.1 or 192.168.0.1).
+2. Navigate to the LAN or Local Network settings.
+3. Assign a static IP (look for an option that allows you to reserve IP addresses or set static IPs).
+
+You should see something similar to this: ![Address](/images/address_reservation.png)
+
 ### Initial Setup of Docker, Kubernetes, and ArgoCD
 
 #### Step 1: Update the System
@@ -62,6 +72,7 @@ MicroK8s is a lightweight Kubernetes distribution, ideal for small workloads. It
 ```bash
 sudo snap install microk8s --classic
 sudo usermod -aG microk8s $USER
+mkdir -p ~/.kube
 sudo chown -f -R $USER ~/.kube
 ```
 As with Docker, you will need to log out and log back in.
@@ -184,6 +195,21 @@ If you forget the ArgoCD administrator password, you can easily recover it using
 ```bash
 kubectl get secret argocd-initial-admin-secret -n argocd -ogo-template='{{printf "%s\n" (index (index . "data") "password" | base64decode)}}'
 ```
+The GitHub token is stored in a Kubernetes secret which you can check to review or modify if it expires.
+
+```bash
+# Query and decode the GitHub token stored in Kubernetes:
+kubectl get secret autopilot-secret -n argocd -o jsonpath="{.data.git_token}" | base64 --decode
+echo # Github token:
+```
+
+```bash
+# Modify the GitHub token
+# Encode the new token value in base64:
+echo -n 'new_token_value' | base64
+# Then, edit the secret in Kubernetes:
+kubectl edit secret autopilot-secret -n argocd
+```
 
 To start organizing your applications, first create a project in ArgoCD with the following command:
 
@@ -228,6 +254,13 @@ choco install kubernetes-cli
 For **kubectl** to connect to your remote Kubernetes cluster, you will need to configure your credentials and cluster information in the `~/.kube/config` file on your local machine.
 
 Proceed to export the MicroK8s configuration from our server.
+
+##### Windows:
+
+```bash
+scp user@server:~/.kube/config C:\path-user\.kube\config
+```
+##### Linux:
 
 ```bash
 microk8s config
