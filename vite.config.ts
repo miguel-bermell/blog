@@ -52,7 +52,7 @@ export default defineConfig(({ mode }) => ({
         preset: 'static',
         prerender: {
           autoSubfolderIndex: false,
-          routes: ['/api/rss.xml']
+          routes: ['/blog', '/home', '/api/rss.xml', ...postRoutes.en, ...postRoutes.es,]
         },
       },
     }),
