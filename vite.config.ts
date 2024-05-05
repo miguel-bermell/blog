@@ -29,6 +29,10 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     analog({
       static: true,
+      nitro: {
+        static: true,
+        preset: 'static'
+      },
       prerender: {
         routes: async () => [
           '/blog', '/home', '/api/rss.xml', ...postRoutes.en, ...postRoutes.es,
@@ -45,14 +49,6 @@ export default defineConfig(({ mode }) => ({
         ],
         sitemap: {
           host: 'https://bermell.dev/'
-        },
-      },
-      nitro: {
-        static: true,
-        preset: 'static',
-        prerender: {
-          autoSubfolderIndex: false,
-          routes: ['/blog', '/home', '/api/rss.xml', ...postRoutes.en, ...postRoutes.es,]
         },
       },
     }),
