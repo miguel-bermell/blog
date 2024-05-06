@@ -29,10 +29,6 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     analog({
       static: true,
-      nitro: {
-        static: true,
-        preset: 'static'
-      },
       prerender: {
         routes: async () => [
           '/blog', '/home', '/api/rss.xml', ...postRoutes.en, ...postRoutes.es,
