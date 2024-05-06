@@ -20,6 +20,8 @@ const postRoutes = {
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   publicDir: 'src/assets',
+  base: '/',
+  
   build: {
     target: ['es2020'],
   },
@@ -44,7 +46,7 @@ export default defineConfig(({ mode }) => ({
           },
         ],
         sitemap: {
-          host: 'https://bermell.dev/'
+          host: 'https://bermell.dev'
         },
       },
     }),
