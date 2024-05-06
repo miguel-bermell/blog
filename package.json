@@ -13,8 +13,8 @@
     "build": "ng build",
     "watch": "ng build --watch",
     "test": "ng test",
-    "serve": "serve -s ./dist/analog/public",
-    "wrangler": "npx wrangler pages dev ./dist/analog/public"
+    "serve": "serve -s ./dist/analog/public -l 46097",
+    "wrangler": "npx wrangler pages dev ./dist/analog/public --port  46097"
   },
   "dependencies": {
     "@analogjs/content": "^1.2.0",
